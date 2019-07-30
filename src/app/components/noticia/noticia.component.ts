@@ -13,6 +13,9 @@ export class NoticiaComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+      console.log('noticia', this.noticia);
+      console.log('noticia-index', this.index);
+  }
 
 }
