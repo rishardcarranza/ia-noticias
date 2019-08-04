@@ -11,11 +11,13 @@ export class NoticiaComponent implements OnInit {
     @Input() noticia: Article;
     @Input() index: number;
 
-  constructor() { }
+  constructor() {
+    console.log('Constructor noticia');
+  }
 
   ngOnInit() {
-      console.log('noticia', this.noticia);
-      console.log('noticia-index', this.index);
+      console.log('noticia', this.noticia.title);
+    //   console.log('noticia-index', this.index);
   }
 
 }

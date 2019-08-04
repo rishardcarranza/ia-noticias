@@ -29,6 +29,7 @@ export class NoticiasService {
 
     getTopHeadLinesCategory(category: string) {
         return this.executeQuery<TopHeadLines>(`/top-headlines?country=us&category=${category}`);
+        // tslint:disable-next-line: max-line-length
         // return this.http.get('https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=f462be3c9e0949ed839e85474cf2205a');
     }
 

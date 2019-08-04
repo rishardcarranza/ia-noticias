@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSegment } from '@ionic/angular';
 import { NoticiasService } from '../../services/noticias.service';
-import { Article } from 'src/app/interfaces/interfaces';
+import { Article } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-tab2',
@@ -18,7 +18,7 @@ export class Tab2Page implements OnInit {
   constructor(private noticiasService: NoticiasService) {}
 
     ngOnInit() {
-        console.log('tab2');
+        // console.log('tab2');
         this.cargarNoticias(this.segment.value);
     }
 
