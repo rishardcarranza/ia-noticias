@@ -4,9 +4,9 @@ import { TopHeadLines } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
 
 const apiKey = environment.apiKey;
-const apiUrl = environment.apiURL;
+const apiUrl = environment.apiUrl;
 const headers = new HttpHeaders({
-    'X-Api-Key': apiKey
+    'X-Api-key': apiKey
 });
 
 @Injectable({
@@ -14,23 +14,32 @@ const headers = new HttpHeaders({
 })
 export class NoticiasService {
 
-  constructor(private http:HttpClient) { }
+    headLinesPage = 0;
+    categoriaActual = '';
+    categoriaPage = 0;
 
-    private executeQuery<T>(query: string) {
+  constructor(private http: HttpClient) { }
+
+    private ejecutarQuery<T>(query: string) {
         query = apiUrl + query;
         return this.http.get<T>(query, {headers});
     }
 
-    getTopHeadLines() {
-        return this.executeQuery<TopHeadLines>(`/top-headlines?country=us`);
-        // tslint:disable-next-line: max-line-length
-        // return this.http.get<TopHeadLines>(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f462be3c9e0949ed839e85474cf2205a`);
-    }
+  getTopHeadLines() {
+      // tslint:disable-next-line: max-line-length
+    //   return this.http.get<TopHeadLines>(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f283e5222ffe4309976d84aa1d2fbb5a`);
+    this.headLinesPage++;
+    return this.ejecutarQuery<TopHeadLines>(`/top-headlines?country=us&page=${this.headLinesPage}`);
+  }
 
-    getTopHeadLinesCategory(category: string) {
-        return this.executeQuery<TopHeadLines>(`/top-headlines?country=us&category=${category}`);
-        // tslint:disable-next-line: max-line-length
-        // return this.http.get('https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=f462be3c9e0949ed839e85474cf2205a');
+  getTopHeadLinesCategoria(categoria: string) {
+    //   return this.http.get(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=f283e5222ffe4309976d84aa1d2fbb5a`);
+    if (this.categoriaActual === categoria) {
+        this.categoriaPage++;
+    } else {
+        this.categoriaPage = 1;
+        this.categoriaActual = categoria;
     }
-
+    return this.ejecutarQuery<TopHeadLines>(`/top-headlines?country=us&category=${categoria}&page=${this.categoriaPage}`);
+  }
 }

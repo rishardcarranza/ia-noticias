@@ -9,15 +9,10 @@ import { Article } from '../../interfaces/interfaces';
 export class NoticiaComponent implements OnInit {
 
     @Input() noticia: Article;
-    @Input() index: number;
+    @Input() indice: number;
 
-  constructor() {
-    console.log('Constructor noticia');
-  }
+  constructor() { }
 
-  ngOnInit() {
-      console.log('noticia', this.noticia.title);
-    //   console.log('noticia-index', this.index);
-  }
+  ngOnInit() {}
 
 }

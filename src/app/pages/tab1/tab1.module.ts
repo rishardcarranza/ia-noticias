@@ -8,7 +8,7 @@ import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
-    ComponentsModule,
+      ComponentsModule,
     IonicModule,
     CommonModule,
     FormsModule,
