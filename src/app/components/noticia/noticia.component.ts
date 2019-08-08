@@ -4,6 +4,7 @@ import { Article } from '../../interfaces/interfaces';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-noticia',
@@ -14,10 +15,12 @@ export class NoticiaComponent implements OnInit {
 
     @Input() noticia: Article;
     @Input() indice: number;
+    @Input() enFavoritos;
 
   constructor(private iab: InAppBrowser,
               private actionSheetCtrl: ActionSheetController,
-              private socialSharing: SocialSharing) { }
+              private socialSharing: SocialSharing,
+              private dataLocalService: DataLocalService) { }
 
   ngOnInit() {}
 
@@ -27,6 +30,32 @@ export class NoticiaComponent implements OnInit {
   }
 
   async lanzarMenu() {
+    let guardarBorrarBtn;
+
+    if (this.enFavoritos) {
+        // Borrar de Favoritos
+        guardarBorrarBtn = {
+            text: 'Borrar de Favoritos',
+            icon: 'trash',
+            cssClass: 'action-dark',
+            handler: () => {
+              console.log('Delete Favorite clicked');
+              this.dataLocalService.borrarNoticia(this.noticia);
+            }
+        };
+    } else {
+        // Guardar en Favoritos
+        guardarBorrarBtn = {
+            text: 'Agregar a Favoritos',
+            icon: 'heart',
+            cssClass: 'action-dark',
+            handler: () => {
+              console.log('Favorite clicked');
+              this.dataLocalService.guardarNoticia(this.noticia);
+            }
+        };
+    }
+
     const actionSheet = await this.actionSheetCtrl.create({
         buttons: [{
           text: 'Compartir',
@@ -41,14 +70,9 @@ export class NoticiaComponent implements OnInit {
                 this.noticia.url
             );
           }
-        }, {
-          text: 'Favorito',
-          icon: 'heart',
-          cssClass: 'action-dark',
-          handler: () => {
-            console.log('Favorite clicked');
-          }
-        }, {
+        },
+        guardarBorrarBtn,
+        {
           text: 'Cancelar',
           icon: 'close',
           cssClass: 'action-dark',
